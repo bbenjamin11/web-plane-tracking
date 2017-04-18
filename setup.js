@@ -1,3 +1,4 @@
+/*eslint-env node */
 /* global process */
 /*******************************************************************************
  * Copyright (c) 2015 IBM Corp.
@@ -12,26 +13,51 @@
 // 	2 - Bluemix Development
 // 	3 - Localhost Development
 
-var vcap_app = {application_uris: ['']};						//default blank
-var ext_uri = '';
-if(process.env.VCAP_APPLICATION){
+//var vcap_app = {application_uris: []};						//default blank
+//var ext_uri = '';
+
+var cfenv = require('cfenv');
+var appEnv = cfenv.getAppEnv();
+
+var host = "localhost";
+var port = appEnv.port;
+
+var vcap_app = {application_uris: [host + ":" + port]};						//default blank
+//var vcap_app = {application_uris: [host]};						//default blank
+var ext_uri = vcap_app.application_uris[0];
+
+console.log(" (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-)");
+
+console.log(ext_uri);
+
+console.log(" (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-)");
+
+
+exports.SERVER = 	{
+							HOST:host,
+							PORT: port,
+							DESCRIPTION: 'Bluemix environment',
+							EXTURI: ext_uri,
+						 };
+
+exports.SERVER.vcap_app = vcap_app;
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////     Common     ////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+exports.DEBUG = vcap_app;
+exports.USER1 = 'bob';									//left username
+exports.USER2 = 'leroy';								//right username
+
+
+/*
+ if(process.env.VCAP_APPLICATION){
 	vcap_app = JSON.parse(process.env.VCAP_APPLICATION);
 	for(var i in vcap_app.application_uris){
 		if(vcap_app.application_uris[i].indexOf(vcap_app.name) >= 0){
 			ext_uri = vcap_app.application_uris[i];
 		}
 	}
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////    1. Bluemix Production    ////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-if(process.env.VCAP_APP_HOST && process.env.PRODUCTION){
-	exports.SERVER = 	{	
-							HOST: process.env.VCAP_APP_HOST,
-							PORT: process.env.VCAP_APP_PORT,
-							DESCRIPTION: 'Bluemix - Production',
-							EXTURI: ext_uri,
-						};
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,3 +92,4 @@ exports.SERVER.vcap_app = vcap_app;
 exports.DEBUG = vcap_app;
 exports.USER1 = 'bob';									//left username
 exports.USER2 = 'leroy';								//right username
+*/

@@ -1,3 +1,4 @@
+/*eslint-env browser */
 /* global clear_blocks */
 /* global formatMoney */
 /* global in_array */
@@ -168,12 +169,14 @@ function connect_to_server(){
 		var wsUri = '';
 		console.log('protocol', window.location.protocol);
 		if(window.location.protocol === 'https:'){
-			wsUri = "wss://" + bag.setup.SERVER.EXTURI;
+			wsUri = "ws://" + bag.setup.SERVER.EXTURI;
 		}
 		else{
 			wsUri = "ws://" + bag.setup.SERVER.EXTURI;
 		}
-
+		
+		wsUri = "ws://" + bag.setup.SERVER.EXTURI;
+		console.log("___'''_'''__ ws = ", wsUri);
 		ws = new WebSocket(wsUri);
 		ws.onopen = function(evt) { onOpen(evt); };
 		ws.onclose = function(evt) { onClose(evt); };

@@ -1,9 +1,10 @@
+/*eslint-env browser */
 /* global formatDate */
 /* global $ */
 var block = 0;
 var blocks = [];
 
-$(document).on('ready', function() {
+$(document).on("ready", function() {
 	setInterval(function(){
 		move_on_down();
 	}, 2000);
@@ -24,14 +25,14 @@ $(document).on('ready', function() {
 });
 
 function show_details(id){
-	var left = event.pageX - $('#details').parent().offset().left - 50;
+	var left = event.pageX - $("#details").parent().offset().left - 50;
 	if(left < 0) left = 0;
 
-	var html = '<p class="blckLegend"> Block Height: ' + blocks[id].id + '</p>';
-	html += '<hr class="line"/><p>Created: &nbsp;' + formatDate(blocks[id].blockstats.transactions[0].timestamp.seconds * 1000, '%M-%d-%Y %I:%m%p') + ' UTC</p>';
-	html += '<p> UUID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + blocks[id].blockstats.transactions[0].uuid + '</p>';
-	html += '<p> Type:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + blocks[id].blockstats.transactions[0].type + '</p>';
-	html += '<p> CC ID:  &nbsp;&nbsp;&nbsp;&nbsp;' + atob(blocks[id].blockstats.transactions[0].chaincodeID) + '</p>';
+	var html = "<p class=\"blckLegend\"> Block Height: " + blocks[id].id + "</p>";
+	html += "<hr class=\"line\"/><p>Created: &nbsp;" + formatDate(blocks[id].blockstats.transactions[0].timestamp.seconds * 1000, "%M-%d-%Y %I:%m%p") + " UTC</p>";
+	html += "<p> UUID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + blocks[id].blockstats.transactions[0].uuid + "</p>";
+	html += "<p> Type:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + blocks[id].blockstats.transactions[0].type + "</p>";
+	html += "<p> CC ID:  &nbsp;&nbsp;&nbsp;&nbsp;" + atob(blocks[id].blockstats.transactions[0].chaincodeID) + "</p>";
 	$("#details").html(html).css("left", left).fadeIn();
 }
 
@@ -43,7 +44,7 @@ function new_block(newblck){
 		//console.log('last', last, Number(newblck.id));
 		if(block > 0){											//never fake blocks on an initial load
 			for(var i=last; i < Number(newblck.id); i++){		//build fake blocks for ones we missed out on
-				console.log('run?');
+				console.log("run?");
 				blocks[Number(i)] = newblck;
 				build_block(i);
 			}
@@ -54,7 +55,7 @@ function new_block(newblck){
 }
 
 function build_block(id){
-	$("#blockWrap").append('<div class="block">' +  nDig(id, 3) + '</div>');
+	$("#blockWrap").append("<div class=\"block\">" +  nDig(id, 3) + "</div>");
 	$(".block:last").animate({opacity: 1, left: (block * 36)}, 600, function(){
 		$(".lastblock").removeClass("lastblock");
 		$(".block:last").addClass("lastblock");
