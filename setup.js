@@ -19,19 +19,14 @@
 var cfenv = require('cfenv');
 var appEnv = cfenv.getAppEnv();
 
-var host = "localhost";
+var host =  appEnv.bind;
 var port = appEnv.port;
 
-var vcap_app = {application_uris: [host + ":" + port]};						//default blank
+var vcap_app = {application_uris: [ appEnv.url.split("//")[1] ]};						//default blank
 //var vcap_app = {application_uris: [host]};						//default blank
 var ext_uri = vcap_app.application_uris[0];
 
-console.log(" (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-)");
-
-console.log(ext_uri);
-
-console.log(" (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-) (-_-)");
-
+console.log("appEnv : ", ext_uri, "->", host, ":", port);
 
 exports.SERVER = 	{
 							HOST:host,

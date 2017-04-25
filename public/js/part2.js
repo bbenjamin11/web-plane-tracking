@@ -10,7 +10,7 @@
 /* global $ */
 var ws = {};
 var user = {username: bag.session.username};
-var valid_users = ["CERTIFIER","FISHCO"];
+var valid_users = ["CERTIFIER","FISHCO","SUPPLIER"];
 var panels = [
 	{
 		name: "dashboard",
@@ -169,14 +169,17 @@ function connect_to_server(){
 		var wsUri = '';
 		console.log('protocol', window.location.protocol);
 		if(window.location.protocol === 'https:'){
-			wsUri = "ws://" + bag.setup.SERVER.EXTURI;
+			wsUri = "wss://" + bag.setup.SERVER.EXTURI;
 		}
 		else{
-			wsUri = "ws://" + bag.setup.SERVER.EXTURI;
+			wsUri = "wss://" + bag.setup.SERVER.EXTURI;
 		}
 		
-		wsUri = "ws://" + bag.setup.SERVER.EXTURI;
-		console.log("___'''_'''__ ws = ", wsUri);
+		//console.log("WS change !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		//wsUri = "ws://" + bag.setup.SERVER.EXTURI;
+		
+		
+		console.log("_____ ws = ", wsUri);
 		ws = new WebSocket(wsUri);
 		ws.onopen = function(evt) { onOpen(evt); };
 		ws.onclose = function(evt) { onClose(evt); };

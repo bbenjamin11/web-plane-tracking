@@ -3,23 +3,23 @@
 	hr
 
 	#innerWrap
-		img(src="/imgs/fish2.png" style="float:left;margin-right: 60px; border-radius: 30px; width: 38%;box-shadow: 8px 7px 12px #888888;")
+		img(src="/imgs/plane-airbus.jpg" style="float:left;margin-right: 60px; border-radius: 30px; width: 38%;box-shadow: 8px 7px 12px #888888;")
 		
 		form(action="/newBatch" method="POST")#newBatchform
 			legend 
 				input(type="text" name="BatchId" placeholder="Batch Id" disabled)
 			legend 
 				select(name="Type")
-					option Salmon
-					option Barramundi
-					option Dory
-					option Tuna
-					option Ray
+					option Motor
+					option Landing gear
+					option Wing
+					option Cockpit
+					option Aileron 
 				span.hint 
 			legend 
 				input(type="text" name="Date" placeholder="Date" disabled)
 			legend 
-				input(type="text" name="Location" placeholder="Location" value="Sydney Fish Market" disabled)
+				input(type="text" name="Location" placeholder="Location" value="Hamburg Airbus Industrie" disabled )
 			legend 
 				input(type="number" name="Quantity" placeholder="Items Quantity" min="1")
 			

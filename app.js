@@ -109,7 +109,7 @@ app.use(function(err, req, res, next) {		// = development error handler, print s
 // ============================================================================================================================
 var server = http.createServer(app);//.listen(port, host, function() {console.log("creer serveur(((((((((((((((((((((((((((((((-");});
 server.listen(port, function listening() {
-	console.log('Listening on %d', server.address().port);
+	console.log("Listening on %d", server.address().port);
 });
 //var server = http.createServer(app).listen(port, '192.168.1.2');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -140,7 +140,7 @@ else console.log("Running using Developer settings");
 // ============================================================================================================================
 var part2 = require("./utils/ws_part2");
 var ws = require("ws");
-var wss = {};
+
 var Ibc1 = require("ibm-blockchain-js");
 var ibc = new Ibc1();
 
@@ -184,44 +184,24 @@ if(process.env.VCAP_SERVICES){															//load from vcap, search for servic
 // ==================================
 // configure ibm-blockchain-js sdk
 // ==================================
-var options = 	{
-					network:{
-						peers: peers,
-						users: users,
-						options: {
-							quiet: true,
-							timeout: 60000,
-							maxRetry: 2
-						}
-					},
-					chaincode:{
-						zip_url: "https://github.com/bbenjamin11/bb-chainecode/archive/master.zip",
-						unzip_dir: "bb-chainecode-master",									//subdirectroy name of chaincode after unzipped
-						git_url: "https://github.com/bbenjamin11/bb-chaincode",			//GO git http url
-					
-						//hashed cc name from prev deployment
-						deployed_name : "20cd71a93d11364d443269012d740d79e9120d3861af61556845f7b38b0d9826c90d0be1b8f9addd4906a22a64828c4465dc57b1d7c634586c8628905a670216"
-					}
-				};
-if(process.env.VCAP_SERVICES){
-	console.log("\n[!] looks like you are in bluemix, I am going to clear out the deploy_name so that it deploys new cc.\n[!] hope that is ok budddy\n");
-	options.chaincode.deployed_name = "";
-}
 
-console.log(" ______________________ xxxx _____________________");
-console.log(options);
-console.log(" ______________________ dddd _____________________");
+var options = JSON.parse(fs.readFileSync(__dirname + "/options.json", "utf8"));
+options.network.peers = peers;
+options.network.users = users;
+
+ibc.switchPeer(0);
 ibc.load(options, function(err,data){
-	console.log(" ______________________ LOAD _____________________");
+
 	if(err){
 		console.log("Error : ", err);
 	}else{
-		console.log("data : ", data);
+		data.details.deployed_name = options.chaincode.deployed_name;
 		cb_ready(err,data);
 	}
 });																//parse/load chaincode
 
 var chaincode = {};
+
 function cb_ready(err, cc){																	//response has chaincode functions
 	if(err){
 		console.log("! looks like an error loading the chaincode, app will fail\n", err);
@@ -229,6 +209,7 @@ function cb_ready(err, cc){																	//response has chaincode functions
 	}
 	else{
 		chaincode = cc;
+		console.log(chaincode);
 		part2.setup(ibc, cc);
 		router.setup(ibc, cc);
 		
@@ -253,14 +234,17 @@ function cb_deployed(e, d){
 	}
 	else{
 		console.log("------------------------------------------ Websocket Up ------------------------------------------");
-		ibc.save(__dirname + "/cc_summaries");															//save it here for chaincode investigator
+		//ibc.save(__dirname + "/cc_summaries");															//save it here for chaincode investigator
 		var wss = new ws.Server({server : server});												//start the websocket now
+		
+		//var wss = new ws.Server({ port: 80 });
+ 
+		
 		wss.on("connection", function connection(ws) {
-			console.log("----------------------------------------------------------------------------------WS connection : ");
 			ws.on("message", function incoming(message) {
 				console.log("received ws msg:", message);
 				var data = JSON.parse(message);
-				var finInst = null
+				//var finInst = null
 				parseCookie(ws.upgradeReq, null, function(err) {
 			        var sessionID = ws.upgradeReq.signedCookies["connect.sid"];
 			        sessionStore.get(sessionID, function(err, sess) {
@@ -291,7 +275,7 @@ function cb_deployed(e, d){
 		// Part 2 Code - Monitor the height of the blockchain
 		// =======================================================
 		ibc.monitor_blockheight(function(chain_stats){										//there is a new block, lets refresh everything that has a state
-			console.log("chain_statssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", chain_stats);
+
 			if(chain_stats && chain_stats.height){
 				console.log("hey new block, lets refresh and broadcast to all");
 				ibc.block_stats(chain_stats.height - 1, cb_blockstats);
@@ -300,7 +284,6 @@ function cb_deployed(e, d){
 			
 			//got the block's stats, lets send the statistics
 			function cb_blockstats(e, stats){
-				console.log("2222222222222222222222222222222222222222");
 				if(chain_stats.height) stats.height = chain_stats.height - 1;
 				wss.broadcast({msg: "chainstats", e: e, chainstats: chain_stats, blockstats: stats});
 			}
