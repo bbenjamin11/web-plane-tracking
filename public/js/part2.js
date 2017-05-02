@@ -304,10 +304,11 @@ function connect_to_server(){
 						html += '</td>';
 						html += '<td style="text-align:left;padding-left:20px">';
 						html +=	'<div style="display: inline-block; vertical-align: middle;">';
-						html += '<p style="font-weight:500;color:#ef473a">QUALITY IMPACTED DUE TO HIGH TEMPERATURE</p>';
+						html += '<p style="font-weight:500;color:#ef473a">QUALITY IMPACTED</p>';
 						html += '<p style="">' + txs[i].vDate +'</p>';
 						html += '<p style="">' + txs[i].location +'</p>';
 						html += '<p style="">Qty: ' + txs[i].quantity +'</p>';
+						html += '<p style="">Quality: ' + txs[i].quality +'</p>';
 						html +=	'</div>';
 						html += '</td>';
 						html += '</tr>';
