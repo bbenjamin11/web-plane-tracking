@@ -281,14 +281,14 @@ function connect_to_server(){
 			          //litem = {avatar:"ion-ios-cart-outline", date: data.batch.vDate, location: data.batch.location, desc:"SOLD TO ", owner:data.batch.owner};
 			        	html += '<tr>';
 						html +=	'<td>';
-						html +=	'<div style="font-size: 34px;color:#5596E6;float:right;"><i class="ion-ios-cart-outline"></i></div>';
+						html +=	'<div style="font-size: 34px;color:#5596E6;float:right;"><i class="ion-wrench"></i></div>';
 						html += '</td>';
 						html += '<td style="text-align:left;padding-left:20px">';
 						html +=	'<div style="display: inline-block; vertical-align: middle;">';
 						if(txs[i].quantity<=1){
-							html += '<p style="font-weight:500;">SOLD <span style="color:#5596E6">' + txs[i].quantity +'</span> ITEM TO <span style="color:#5596E6">' + txs[i].owner +'</span></p>';
+							html += '<p style="font-weight:500;">PLUG <span style="color:#5596E6">' + txs[i].quantity +'</span> ITEM TO <span style="color:#5596E6">' + txs[i].owner +'</span></p>';
 						}else {
-							html += '<p style="font-weight:500;">SOLD <span style="color:#5596E6">' + txs[i].quantity +'</span> ITEMS TO <span style="color:#5596E6">' + txs[i].owner +'</span></p>';
+							html += '<p style="font-weight:500;">PLUG <span style="color:#5596E6">' + txs[i].quantity +'</span> ITEMS TO <span style="color:#5596E6">' + txs[i].owner +'</span></p>';
 						}
 						html += '<p style="">' + txs[i].vDate +'</p>';
 						html += '<p style="">' + txs[i].location +'</p>';
