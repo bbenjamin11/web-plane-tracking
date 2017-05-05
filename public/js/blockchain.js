@@ -22,6 +22,8 @@ $(document).on("ready", function() {
 	$(document).on("mouseleave", "#blockWrap", function(){
 		if(!clicked) $("#details").fadeOut();
 	});
+	
+	$("#contentTable").css("height",$("#dashboardTable").height() + 125);
 });
 
 function show_details(id){
