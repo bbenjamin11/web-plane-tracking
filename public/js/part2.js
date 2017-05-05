@@ -147,7 +147,7 @@ $(document).on('ready', function() {
 	    ws.send(JSON.stringify({type: "getBatch", batchId: bId}));
 	});
 	
-	$("#contentTable").css("height",$("#dashboardTable").height() + 125);
+	$("#contentTable").css("height",$("#dashboardTable").height() + 200);
 });
 
 
