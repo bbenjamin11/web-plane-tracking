@@ -13,23 +13,25 @@
 						br
 						br
 						a.filter-button(href="#close" title="Close" ) Close
-						
-	div(style="text-align:center")
-		span#spinner2.fa.fa-circle-o-notch.fa-spin(style="font-size: 80px;color:#5596E6")					
-	#openTrades
-		
-		br
-		a.filter-button(href="#dashboardModal") Filter Transactions
-		br
-		br
-		table#dashboardTable.tablesorter(style="width:30%;float:left")
-			thead
-				tr 
-					th BATCH ID
-			tbody#dashboardBody.tablesorter(style="width:30%;float:left;height:80%")
+	div#contentTable					
+		div(style="text-align:center")
+			span#spinner2.fa.fa-circle-o-notch.fa-spin(style="font-size: 80px;color:#5596E6")					
+		#openTrades
 
-		table#batchDetailsTable.tablesorter(style="width:64%;float:right")
-			thead
-				tr 
-					th#bDetHeader(colspan="2" style="font-size: 12px;")
-			tbody#batchDetailsBody
+			br
+			a.filter-button(href="#dashboardModal") Filter Transactions
+			br
+			br
+			table#dashboardTable.tablesorter(style="width:30%;float:left")
+				thead
+					tr 
+						th BATCH ID
+				tbody#dashboardBody.tablesorter(style="width:30%;float:left;height:80%")
+				tr
+					td
+
+			table#batchDetailsTable.tablesorter(style="width:64%;float:right")
+				thead
+					tr 
+						th#bDetHeader(colspan="2" style="font-size: 12px;")
+				tbody#batchDetailsBody
