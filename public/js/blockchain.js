@@ -23,7 +23,6 @@ $(document).on("ready", function() {
 		if(!clicked) $("#details").fadeOut();
 	});
 	
-	$("#contentTable").css("height",$("#dashboardTable").height() + 125);
 });
 
 function show_details(id){
