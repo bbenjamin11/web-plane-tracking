@@ -146,6 +146,8 @@ $(document).on('ready', function() {
 	    var bId = $(this).find('td:first').text() ;
 	    ws.send(JSON.stringify({type: "getBatch", batchId: bId}));
 	});
+	
+	$("#contentTable").css("height",$("#dashboardTable").height() + 125);
 });
 
 
