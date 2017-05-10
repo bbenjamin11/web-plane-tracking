@@ -10,7 +10,7 @@
 /* global $ */
 var ws = {};
 var user = {username: bag.session.username};
-var valid_users = ["CERTIFIER","FISHCO","SUPPLIER"];
+var valid_users = ["CERTIFIER","FISHCO","SUPPLIER","MANUFACTURER"];
 var panels = [
 	{
 		name: "dashboard",
@@ -44,12 +44,12 @@ $(document).on('ready', function() {
 			$("#newBatchLink").hide();
 			$("#newBatchPanel").hide();
 			$("#batchDetailsTable").hide();
-			
+
 		} else if(user.username) {
-			$("#newBatchLink").show();
-			$("#newBatchPanel").show();
-			$("#dashboardLink").hide();
-			$("#dashboardPanel").hide();
+			$("#newBatchLink").hide();//show();
+			$("#newBatchPanel").hide();//show();
+			$("#dashboardLink").show();//hide();
+			$("#dashboardPanel").show();//hide();
 		}
 
 	}
@@ -60,11 +60,11 @@ $(document).on('ready', function() {
 	$("#generate").click(function(){
 		if(user.username){
 			$("input[name='BatchId']").val(randStr(15).toUpperCase());
-		
+
 			$("input[name='Date']").val(formatDate(new Date(), '%d-%M-%Y %I:%m%p'));
 			$("input[name='Quantity']").val(10);
-			
-			$("#submit").removeAttr("disabled");		
+
+			$("#submit").removeAttr("disabled");
 		}
 
 		return false;
@@ -100,12 +100,12 @@ $(document).on('ready', function() {
 		}
 		return false;
 	});
-	
+
 	$("#newBatchLink").click(function(){
 		$("#batchTagPanel").hide();
 		$("#newBatchPanel").show();
 	});
-	
+
 	$("#dashboardLink").click(function(){
 		if(user.username) {
 			$('#spinner2').show();
@@ -113,7 +113,7 @@ $(document).on('ready', function() {
 			ws.send(JSON.stringify({type: "getAllBatches", v: 2}));
 		}
 	});
-	
+
 	//login events
 	$("#whoAmI").click(function(){													//drop down for login
 		if($("#loginWrap").is(":visible")){
@@ -140,13 +140,13 @@ $(document).on('ready', function() {
 
 	}, 60000);
 
-	
+
 
 	$("#dashboardTable").on('click', 'tr', function() {
 	    var bId = $(this).find('td:first').text() ;
 	    ws.send(JSON.stringify({type: "getBatch", batchId: bId}));
 	});
-	
+
 });
 
 
@@ -165,29 +165,16 @@ function escapeHtml(str) {
 function connect_to_server(){
 	var connected = false;
 	connect();
-		
+
 	function connect(){
-		var wsUri = '';
-		console.log('protocol', window.location.protocol);
-		if(window.location.protocol === 'https:'){
-			wsUri = "wss://" + bag.setup.SERVER.EXTURI;
-		}
-		else{
-			wsUri = "wss://" + bag.setup.SERVER.EXTURI;
-		}
-		
-		//console.log("WS change !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		//wsUri = "ws://" + bag.setup.SERVER.EXTURI;
-		
-		
-		console.log("_____ ws = ", wsUri);
+		var wsUri = "wss://" + bag.setup.SERVER.EXTURI;
 		ws = new WebSocket(wsUri);
 		ws.onopen = function(evt) { onOpen(evt); };
 		ws.onclose = function(evt) { onClose(evt); };
 		ws.onmessage = function(evt) { onMessage(evt); };
 		ws.onerror = function(evt) { onError(evt); };
 	}
-	
+
 	function onOpen(evt){
 		console.log("WS CONNECTED");
 		connected = true;
@@ -211,7 +198,7 @@ function connect_to_server(){
 	function onMessage(msg){
 		try{
 			var data = JSON.parse(msg.data);
-			
+
 			if(data.msg === 'allBatches'){
 				console.log("---- ", data);
 				build_Batches(data.batches, null);
@@ -324,8 +311,8 @@ function connect_to_server(){
 				{
 					var e = formatDate(data.blockstats.transactions[0].timestamp.seconds * 1000, '%M/%d/%Y &nbsp;%I:%m%P');
 					//$("#blockdate").html('<span style="color:#fff">LAST BLOCK</span>&nbsp;&nbsp;' + e + ' UTC');
-					var temp = { 
-									id: data.blockstats.height, 
+					var temp = {
+									id: data.blockstats.height,
 									blockstats: data.blockstats
 								};
 					new_block(temp);
@@ -337,7 +324,7 @@ function connect_to_server(){
 				$('#tagWrapper').show();
 				$('#batchTag').qrcode(data.batchId);
 			}
-			else if(data.msg === 'reset'){						
+			else if(data.msg === 'reset'){
 				if(user.username && bag.session.user_role && bag.session.user_role.toUpperCase() === "certifier".toUpperCase()) {
 					$('#spinner2').show();
 					$('#openTrades').hide();
@@ -374,22 +361,22 @@ function connect_to_server(){
 // =================================================================================
 function build_Batches(batches, panelDesc){
 	var html = '';
-	bag.batches = batches;					
+	bag.batches = batches;
 	// If no panel is given, assume this is the trade panel
 	if(!panelDesc) {
 		panelDesc = panels[0];
 	}
-	
+
 	for(var i in batches){
 		//console.log('!', batches[i]);
-		
+
 		if(excluded(batches[i], filter)) {
-			
+
 			// Create a row for each batch
 			html += '<tr>';
 			html +=		'<td>' + batches[i] + '</td>';
 			html += '</tr>';
-			
+
 		}
 	}
 
@@ -459,5 +446,3 @@ function excluded(batch, filter) {
 	// Must be a valid trade if we reach this point
 	return true;
 }
-
-
