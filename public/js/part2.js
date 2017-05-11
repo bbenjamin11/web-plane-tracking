@@ -48,7 +48,7 @@ $(document).on('ready', function() {
 		} else if(user.username) {
 			$("#newBatchLink").show();
 			$("#newBatchPanel").show();
-			$("#dashboardLink").hide();
+			$("#dashboardLink").show();
 			$("#dashboardPanel").hide();
 		}
 
