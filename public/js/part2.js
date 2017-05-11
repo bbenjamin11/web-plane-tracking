@@ -181,11 +181,11 @@ function connect_to_server(){
 		clear_blocks();
 		$("#errorNotificationPanel").fadeOut();
 		ws.send(JSON.stringify({type: "chainstats", v:2}));
-		if(user.username && bag.session.user_role && bag.session.user_role.toUpperCase() === "certifier".toUpperCase()) {
+		//if(user.username && bag.session.user_role && bag.session.user_role.toUpperCase() === "certifier".toUpperCase()) {
 			$('#spinner2').show();
 			$('#openTrades').hide();
 			ws.send(JSON.stringify({type: "getAllBatches", v: 2}));
-		}
+		//}
 
 	}
 
