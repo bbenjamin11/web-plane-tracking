@@ -1,5 +1,5 @@
 [
 	{"username":"CERTIFIER","password":"passw0rd","role":"CERTIFIER"},
-	{"username":"FISHCO","password":"passw0rd","role":"FISHCO"},
-	{"username":"SUPPLIER","password":"passw0rd","role":"FISHCO"}
+	{"username":"SUPPLIER1","password":"passw0rd","role":"FISHCO"},
+	{"username":"SUPPLIER2","password":"passw0rd","role":"FISHCO"}
 ]
