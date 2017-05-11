@@ -10,7 +10,7 @@
 /* global $ */
 var ws = {};
 var user = {username: bag.session.username};
-var valid_users = ["CERTIFIER","FISHCO","SUPPLIER","MANUFACTURER"];
+var valid_users = ["CERTIFIER","SUPPLIER","MANUFACTURER"];
 var panels = [
 	{
 		name: "dashboard",
